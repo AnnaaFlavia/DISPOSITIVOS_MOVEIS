@@ -1,4 +1,3 @@
-//ATIVIDADE 02
 fun main() {
 
     val nome: String = "João"
