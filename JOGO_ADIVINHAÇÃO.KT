@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
                 try {
                     val guess = guessString.toInt()
 
-                    // Verificar o palpite
                     when {
                         guess < targetNumber -> resultText.text = "Seu palpite é muito baixo."
                         guess > targetNumber -> resultText.text = "Seu palpite é muito alto."
@@ -78,6 +77,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun generateRandomNumber() {
-        targetNumber = Random.nextInt(1, 101) // Gera um número entre 1 e 100
+        targetNumber = Random.nextInt(1, 101) 
     }
 }
