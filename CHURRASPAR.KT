@@ -67,45 +67,37 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Ação do botão "Calcular"
         btnCalcular.setOnClickListener {
             calcularChurrasco()
         }
 
-        // Ação do botão "Limpar"
         btnLimpar.setOnClickListener {
             limparCampos()
         }
     }
 
-    // Função para calcular as quantidades necessárias
     private fun calcularChurrasco() {
         val numHomens = etHomens.text.toString().toIntOrNull() ?: 0
         val numMulheres = etMulheres.text.toString().toIntOrNull() ?: 0
         val numCriancas = etCriancas.text.toString().toIntOrNull() ?: 0
 
-        // Cálculo de Carne
         val carneHomens = numHomens * 400
         val carneMulheres = numMulheres * 300
         val carneCriancas = numCriancas * 200
         val totalCarne = (carneHomens + carneMulheres + carneCriancas) * 1.1
 
-        // Cálculo de Aperitivos
         val aperitivosHomens = numHomens * 150
         val aperitivosMulheres = numMulheres * 100
         val aperitivosCriancas = numCriancas * 50
         val totalAperitivos = (aperitivosHomens + aperitivosMulheres + aperitivosCriancas) * 1.1
 
-        // Cálculo de Bebidas Alcoólicas (Homens e Mulheres)
         val bebidaHomens = numHomens * 4.0
         val bebidaMulheres = numMulheres * 2.0
         val totalBebidaAlcoolica = (bebidaHomens + bebidaMulheres) * 1.1
 
-        // Cálculo de Água e Refrigerante (Mulheres e Crianças)
         val agua = (numMulheres + numCriancas) * 2.0 * 1.1
         val refrigerante = (numMulheres + numCriancas) * 1.5 * 1.1
 
-        // Exibir os resultados
         val resultado = """
             Carne Total: %.2f kg
             Aperitivos Totais: %.2f g
@@ -117,7 +109,6 @@ class MainActivity : AppCompatActivity() {
         tvResultado.text = resultado
     }
 
-    // Função para limpar os campos e resultados
     private fun limparCampos() {
         etHomens.text.clear()
         etMulheres.text.clear()
