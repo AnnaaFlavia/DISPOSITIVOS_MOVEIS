@@ -1,13 +1,10 @@
-//ATIVIDADE 03
 fun main() {
-    // Declaração de variáveis
     val nomeProduto: String = "Apple Iphone 15 Pro"
     val precoUnitario: Double = 8500.00
     val quantidadeComprada: Int = 20
-    val taxaImposto: Double = 0.15  // 15% de imposto
-    val margemLucro: Double = 0.20  // 20% de margem de lucro desejada
+    val taxaImposto: Double = 0.15  
+    val margemLucro: Double = 0.20  
 
-    // Exibindo as informações iniciais
     println("\n Nome do Produto: $nomeProduto")
     println("\n Preço Unitário: R$ $precoUnitario")
     println("\n Quantidade Comprada: $quantidadeComprada")
