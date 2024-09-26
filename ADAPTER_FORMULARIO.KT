@@ -118,11 +118,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Configura o RecyclerView
         recyclerViewAlunos.layoutManager = LinearLayoutManager(this)
         recyclerViewAlunos.adapter = alunoAdapter
 
-        // Ação para inserir um aluno
         btnInserir.setOnClickListener {
             val nome = etNomeAluno.text.toString()
             val area = etAreaEscolha.text.toString()
@@ -137,7 +135,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Ação para zerar os dados
         btnZerar.setOnClickListener {
             alunos.clear()
             alunoAdapter.notifyDataSetChanged()
