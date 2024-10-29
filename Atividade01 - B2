@@ -1,0 +1,220 @@
+//Gerado com erros pelo chatgpt
+xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/inputText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Digite algo"/>
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adicionar"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/itemText"
+        android:layout_width="match_parent"
+        android:layout_height="match_content"/>
+</LinearLayout>
+
+kotlin
+package com.example.errosexample
+
+import android.app.Activity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.errosexample.MyAdapter // Esse import pode estar incorreto
+
+class MainActivity : Activity() {
+
+    lateinit var recyclerView: RecyclerView
+    lateinit var adapter: MyAdapter
+    lateinit var items: List<String>
+
+    override fun onStart(savedInstanceState: Bundle?) { // Função incorreta
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        recyclerView = findViewById<RecyclerView>(R.layout.recyclerView) // ID errado
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val inputText = findViewById<EditText>(R.id.input_text) // ID incorreto
+        val addButton = findViewById<Button>(R.id.add_Button) // ID errado
+
+        addButton.setOnClickListener {
+            val text = inputText.text.toString()
+            items.add(text) // items é uma List, mas não foi inicializada corretamente
+            adapter.notifyDataSetChanged()
+        }
+
+        adapter = MyAdapter(items)
+        recyclerView.setAdapter(adapter) // Função incorreta
+    }
+}
+package com.example.errosexample
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView // Import errado
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+
+class MyAdapter(val itemList: List<String>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_layout_wrong, parent, false) // Nome do layout incorreto
+        return MyViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.bind(itemList.get(position)) // get não é necessário
+    }
+
+    override fun getItemCount(): Int = itemList.size + 1 // Contagem errada para gerar erro
+
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(item: String) {
+            val textView = itemView.findViewById<TextView>(R.layout.itemText) // ID errado
+            textView.text = item
+        }
+    }
+}
+
+//Código corrigido
+xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/inputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Digite algo"/>
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Adicionar"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/itemText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Item"/>
+</LinearLayout>
+
+kotlin
+package com.example.errosexample
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: MyAdapter
+    private var items: MutableList<String> = mutableListOf()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val inputText = findViewById<EditText>(R.id.inputText)
+        val addButton = findViewById<Button>(R.id.addButton)
+
+        adapter = MyAdapter(items)
+        recyclerView.adapter = adapter
+
+        addButton.setOnClickListener {
+            val text = inputText.text.toString()
+            if (text.isNotBlank()) {
+                items.add(text)
+                adapter.notifyItemInserted(items.size - 1)
+                inputText.text.clear()
+            }
+        }
+    }
+}
+package com.example.errosexample
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+
+class MyAdapter(private val itemList: List<String>) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_layout, parent, false)
+        return MyViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.bind(itemList[position])
+    }
+
+    override fun getItemCount(): Int = itemList.size
+
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val textView: TextView = itemView.findViewById(R.id.itemText)
+
+        fun bind(item: String) {
+            textView.text = item
+        }
+    }
+}
+
+
